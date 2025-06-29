@@ -1,55 +1,95 @@
 # -*- coding: utf-8 -*-
-# Этот скрипт создает новый, канонический протокол инициализации для "Ковчега".
+# system_builder.py (v2.0)
+# ПРОТОКОЛ "ПОЛНАЯ КОНСОЛИДАЦИЯ КОНТЕКСТА"
 
 import os
+import glob
 
-# --- ПУТИ К ФАЙЛАМ ---
-BOOTSTRAP_SCRIPT_PATH = "../_ark_init/ARK_BOOTSTRAP.md"
+# --- НАСТРОЙКИ ---
+# Пути к репозиториям, которые нужно обработать
+REPOSITORIES_TO_SCAN = {
+    "SYSTEM": r"D:\project-continuity",
+    "PROJECT": r"D:\Проекты\Игры\lighthouse_keeper"
+}
 
-# --- СОДЕРЖИМОЕ НОВОГО ПРОТОКОЛА ---
-BOOTSTRAP_CONTENT = """# ПРОТОКОЛ ИНИЦИАЛИЗАЦИИ "КОВЧЕГ" v8.0 (ИСТОЧНИК ИСТИНЫ)
-# Этот документ является единственным и каноническим протоколом запуска.
-# Он заменяет все предыдущие MANIFEST.md.
+# Директория для хранения логов сессий
+SESSIONS_PATH = r"D:\project-continuity\_ark_init\_sessions"
 
----
+# Имя выходного файла
+OUTPUT_FILE = r"D:\project-continuity\FLAT_CONTEXT.md"
 
-### **ФАЗА 0: АУТЕНТИФИКАЦИЯ И ДОСТУП**
+# Типы файлов, которые нужно включить в контекст
+FILE_EXTENSIONS = ('.md', '.gd', '.tscn', '.tres', '.py', '.bat')
 
-0.1. **ЗАПРОС:** Запросить у Напарника URL к двум репозиториям: `project-continuity` и `Garage`.
-0.2. **ПОДТВЕРЖДЕНИЕ:** Подтвердить получение доступа.
 
-### **ФАЗА 1: ПОЛНАЯ СИНХРОНИЗАЦИЯ С ИСТОЧНИКОМ ИСТИНЫ**
-
-1.1. **СИМУЛЯЦИЯ `git clone`:** Полностью загрузить в оперативную память актуальное состояние обоих репозиториев (структуру и содержимое файлов).
-1.2. **ЗАГРУЗКА ЯДРА "КОВЧЕГ":** Из `project-continuity` считать и интегрировать:
-    - `_ark_init/CONSTITUTION.md`
-    - `_ark_init/PROCEDURE_MANUAL.md`
-    - `_ark_init/CALIBRATION_LOG.md`
-1.3. **СИНХРОНИЗАЦИЯ ЗАВЕРШЕНА:** Сообщить Напарнику: "Полная синхронизация с репозиториями завершена. Приступаю к анализу."
-
-### **ФАЗА 2: АНАЛИЗ И ОТЧЕТ**
-
-2.1. **АНАЛИЗ РЕАЛЬНОСТИ:** Проанализировать фактическое состояние проекта `Garage` (код, сцены, ресурсы).
-2.2. **СВЕРКА С НАМЕРЕНИЕМ:** Проанализировать `docs/1_game_design/MASTER_GDD.md` и `docs/3_technical/TECHNICAL_JOURNAL.md` из проекта `Garage`.
-2.3. **ФОРМИРОВАНИЕ ОТЧЕТА:** Подготовить и предоставить Напарнику отчет, состоящий из двух частей:
-    - **"Соответствие":** Список того, что в проекте соответствует документации.
-    - **"Расхождения / Отсутствие":** Список того, что в проекте отличается от документации, или что в документации не отражено.
-
-### **ФАЗА 3: ПЛАНИРОВАНИЕ И НАЧАЛО РАБОТЫ**
-
-3.1. **ПРЕДЛОЖЕНИЕ:** На основе анализа и `MASTER_GDD.md`, предложить следующий логический шаг для достижения цели текущего эпика.
-3.2. **ОЖИДАНИЕ ДИРЕКТИВЫ:** Перейти в режим ожидания команды Напарника.
-
-"""
-
-def create_bootstrap_file():
+def find_latest_session_log(path):
+    """Находит самый последний файл лога в указанной директории."""
     try:
-        os.makedirs(os.path.dirname(BOOTSTRAP_SCRIPT_PATH), exist_ok=True)
-        with open(BOOTSTRAP_SCRIPT_PATH, "w", encoding="utf-8") as f:
-            f.write(BOOTSTRAP_CONTENT)
-        print(f"УСПЕХ: Новый протокол инициализации ARK_BOOTSTRAP.md успешно создан.")
+        files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+        if not files:
+            return None
+        latest_file = max(files, key=lambda f: os.path.getmtime(os.path.join(path, f)))
+        return os.path.join(path, latest_file)
+    except FileNotFoundError:
+        return None
     except Exception as e:
-        print(f"!!! ОШИБКА: Не удалось создать ARK_BOOTSTRAP.md. Причина: {e}")
+        print(f"[ERROR] Не удалось найти лог сессии: {e}")
+        return None
+
+
+def gather_context():
+    """Собирает содержимое всех релевантных файлов в один строковый блок."""
+    full_context = []
+    print("[INFO] Начало сбора контекста...")
+
+    # 1. Собираем файлы из основных репозиториев
+    for repo_name, repo_path in REPOSITORIES_TO_SCAN.items():
+        print(f"[INFO] Сканирование репозитория '{repo_name}' в '{repo_path}'...")
+        search_pattern = os.path.join(repo_path, '**', '*')
+        all_files = glob.glob(search_pattern, recursive=True)
+
+        for file_path in all_files:
+            if os.path.isfile(file_path) and file_path.endswith(FILE_EXTENSIONS):
+                # Исключаем сами инструменты сборки
+                if "autocode_" in file_path or "FIX_EVERYTHING" in file_path:
+                    continue
+                
+                relative_path = os.path.relpath(file_path, os.path.dirname(repo_path))
+                full_context.append(f"\n\n--- FILE: {relative_path} ---\n\n")
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        full_context.append(f.read())
+                except Exception as e:
+                    full_context.append(f"!!! ОШИБКА ЧТЕНИЯ ФАЙЛА: {e} !!!")
+    
+    # 2. Добавляем самый последний лог сессии
+    print(f"[INFO] Поиск последнего лога сессии в '{SESSIONS_PATH}'...")
+    latest_log_path = find_latest_session_log(SESSIONS_PATH)
+    if latest_log_path:
+        relative_log_path = os.path.relpath(latest_log_path, os.path.dirname(REPOSITORIES_TO_SCAN["SYSTEM"]))
+        print(f"[INFO] Найден и добавлен последний лог: {os.path.basename(latest_log_path)}")
+        full_context.append(f"\n\n--- LAST SESSION LOG: {relative_log_path} ---\n\n")
+        try:
+            with open(latest_log_path, 'r', encoding='utf-8') as f:
+                full_context.append(f.read())
+        except Exception as e:
+            full_context.append(f"!!! ОШИБКА ЧТЕНИЯ ЛОГА: {e} !!!")
+    else:
+        print("[WARN] Последний лог сессии не найден.")
+
+    return "".join(full_context)
+
+
+def write_output_file(content):
+    """Записывает собранный контекст в выходной файл."""
+    try:
+        with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+            f.write(content)
+        print(f"\n[SUCCESS] Полный контекст успешно сохранен в файл: {OUTPUT_FILE}")
+    except Exception as e:
+        print(f"\n[FATAL ERROR] Не удалось записать выходной файл: {e}")
+
 
 if __name__ == "__main__":
-    create_bootstrap_file()
+    context_data = gather_context()
+    write_output_file(context_data)
