@@ -1,5 +1,5 @@
 # res://scripts/ui/inventory_ui.gd
-# Версия 5.0: Автоматически сгенерированная, идеальная.
+# Версия 14.0: Автоматически сгенерированная, финальная.
 extends PanelContainer
 
 signal sell_button_pressed(resource_id: String)
@@ -33,13 +33,14 @@ func _create_slot(id: String, amount: int, is_material: bool):
 	var resource_data = GameManager.resource_database.get(id)
 	if not resource_data: return
 	var slot = inventory_slot_scene.instantiate()
-	var name_and_count_label: Label = slot.get_node("HBoxContainer/NameAndCount")
 	var icon: TextureRect = slot.get_node("HBoxContainer/Icon")
+	var name_label: Label = slot.get_node("HBoxContainer/InfoVBox/NameLabel")
+	var amount_label: Label = slot.get_node("HBoxContainer/InfoVBox/AmountLabel")
 	var sell_button: Button = slot.get_node("HBoxContainer/SellButton")
-	name_and_count_label.text = "%s (x%d)" % [resource_data.display_name, amount]
+	name_label.text = resource_data.display_name
+	amount_label.text = "x %d" % amount
 	if resource_data.texture:
 		icon.texture = resource_data.texture
-		icon.custom_minimum_size = icon.texture.get_size()
 	if is_material:
 		sell_button.show()
 		sell_button.pressed.connect(func(): emit_signal("sell_button_pressed", id))
