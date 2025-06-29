@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=2 format=3 uid="uid://dya5o73e6rfi0"]
+
+[ext_resource type="Script" uid="uid://cb6ufp86wg3ly" path="res://scripts/resources/ZoneData.gd" id="1_oxopi"]
+
+[resource]
+script = ExtResource("1_oxopi")
+zone_type = "resource_generator"
+stamina_cost = 1
+produced_resource_id = "res_common_01"
+produced_amount = 1
+id = "zone_resource_01"
+display_name = "Куча хлама"
+description = ""
+metadata/_custom_type_script = "uid://cb6ufp86wg3ly"

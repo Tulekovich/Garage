@@ -1,0 +1,125 @@
+[gd_scene load_steps=12 format=3 uid="uid://b4ntg3vspm2yo"]
+
+[ext_resource type="Script" uid="uid://bcdqsoqatuqut" path="res://scripts/world/main_world.gd" id="1_50lg6"]
+[ext_resource type="Texture2D" uid="uid://urusevreqi2q" path="res://assets/art/placeholders/world_layout_v1.png" id="2_01o1s"]
+[ext_resource type="PackedScene" uid="uid://baq55pyj60ao4" path="res://scenes/components/base_interactive_zone.tscn" id="2_dbnql"]
+[ext_resource type="Script" uid="uid://cmr4jpbxgbaxp" path="res://scripts/ui/ui_manager.gd" id="2_rnvp4"]
+[ext_resource type="Texture2D" uid="uid://c35ce0ijogtbq" path="res://assets/art/zone_coffee_machine.png" id="3_5cb6b"]
+[ext_resource type="Texture2D" uid="uid://dh14gliekhcoq" path="res://assets/art/icons/ui/icon_ui_upgrades.png" id="3_dapv1"]
+[ext_resource type="Texture2D" uid="uid://cg5ec10b25boa" path="res://assets/art/icons/ui/icon_ui_workers.png" id="4_o3fth"]
+[ext_resource type="Texture2D" uid="uid://cqci7idip2suq" path="res://assets/art/zone_car_lift.png" id="4_y4hen"]
+[ext_resource type="Texture2D" uid="uid://dttaaea3noxtr" path="res://assets/art/junk_pile_style_A_01.png" id="5_5cb6b"]
+[ext_resource type="Texture2D" uid="uid://cy57a3eou7bdl" path="res://assets/art/icons/ui/icon_ui_inventory.png" id="5_mca7x"]
+[ext_resource type="Texture2D" uid="uid://dha30eqn0t5hu" path="res://assets/art/icons/ui/icon_ui_achievements.png" id="6_3sbql"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_50lg6")
+
+[node name="UI_Canvas" type="CanvasLayer" parent="."]
+
+[node name="UI_Root" type="Control" parent="UI_Canvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_rnvp4")
+
+[node name="Money_Label" type="Label" parent="UI_Canvas/UI_Root"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 188.0
+offset_right = 118.0
+offset_bottom = 211.0
+text = "Деньги: 0"
+
+[node name="Stamina_Container" type="Control" parent="UI_Canvas/UI_Root"]
+custom_minimum_size = Vector2(200, 30)
+anchors_preset = 0
+offset_left = 45.0
+offset_top = 118.0
+offset_right = 245.0
+offset_bottom = 158.0
+scale = Vector2(1.13426, 1.11468)
+
+[node name="Stamina_Bar" type="ProgressBar" parent="UI_Canvas/UI_Root/Stamina_Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+show_percentage = false
+
+[node name="Stamina_Label" type="Label" parent="UI_Canvas/UI_Root/Stamina_Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TopNavContainer" type="HBoxContainer" parent="UI_Canvas/UI_Root"]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 25.0
+offset_right = 302.0
+offset_bottom = 89.0
+scale = Vector2(1.30233, 1.25786)
+
+[node name="UpgradesButton" type="TextureButton" parent="UI_Canvas/UI_Root/TopNavContainer"]
+process_mode = 3
+layout_mode = 2
+texture_normal = ExtResource("3_dapv1")
+
+[node name="WorkersButton" type="TextureButton" parent="UI_Canvas/UI_Root/TopNavContainer"]
+process_mode = 3
+layout_mode = 2
+texture_normal = ExtResource("4_o3fth")
+
+[node name="InventoryButton" type="TextureButton" parent="UI_Canvas/UI_Root/TopNavContainer"]
+process_mode = 3
+layout_mode = 2
+texture_normal = ExtResource("5_mca7x")
+
+[node name="AchievementsButton" type="TextureButton" parent="UI_Canvas/UI_Root/TopNavContainer"]
+process_mode = 3
+layout_mode = 2
+texture_normal = ExtResource("6_3sbql")
+
+[node name="Layout_Placeholder" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(640, 360)
+texture = ExtResource("2_01o1s")
+
+[node name="Zone_Junk" parent="." instance=ExtResource("2_dbnql")]
+position = Vector2(1141, 399)
+scale = Vector2(0.672763, 0.503261)
+zone_id = "zone_resource_01"
+texture = ExtResource("5_5cb6b")
+
+[node name="Area2D2" type="Area2D" parent="Zone_Junk"]
+
+[node name="Zone_Coffee" parent="." instance=ExtResource("2_dbnql")]
+position = Vector2(207, 500)
+scale = Vector2(0.604215, 0.462782)
+zone_id = "zone_energy_01"
+texture = ExtResource("3_5cb6b")
+
+[node name="Area2D2" type="Area2D" parent="Zone_Coffee"]
+
+[node name="Zone_Project" parent="." instance=ExtResource("2_dbnql")]
+position = Vector2(642, 228)
+scale = Vector2(1.12015, 1.26545)
+zone_id = "zone_project_01"
+texture = ExtResource("4_y4hen")
+
+[node name="Area2D2" type="Area2D" parent="Zone_Project"]
+
+[connection signal="zone_interacted" from="Zone_Junk" to="." method="_on_zone_interacted"]
+[connection signal="zone_interacted" from="Zone_Coffee" to="." method="_on_zone_interacted"]
+[connection signal="zone_interacted" from="Zone_Project" to="." method="_on_zone_interacted"]

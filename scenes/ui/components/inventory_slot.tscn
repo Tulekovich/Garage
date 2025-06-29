@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dv8u48k4xiou4"]
+
+[node name="InventorySlot" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="NameAndCount" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="SellButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Продать"

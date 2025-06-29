@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MaterialResource" load_steps=2 format=3 uid="uid://ceetj8udpmj8w"]
+
+[ext_resource type="Script" uid="uid://bdn72otny8rl1" path="res://scripts/resources/MaterialResource.gd" id="1_e4yqu"]
+
+[resource]
+script = ExtResource("1_e4yqu")
+sell_value = 2
+id = "res_common_01"
+display_name = "Металлолом"
+description = "Базовый материал для крафта и продажи, добываемый из кучи хлама"
+metadata/_custom_type_script = "uid://bdn72otny8rl1"

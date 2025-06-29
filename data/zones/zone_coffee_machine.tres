@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=2 format=3 uid="uid://u4h46cal7awu"]
+
+[ext_resource type="Script" uid="uid://cb6ufp86wg3ly" path="res://scripts/resources/ZoneData.gd" id="1_ofhig"]
+
+[resource]
+script = ExtResource("1_ofhig")
+zone_type = "item_crafter"
+stamina_cost = 1
+produced_resource_id = "res_food_01"
+produced_amount = 1
+id = "zone_energy_01"
+display_name = "Кофе-машина"
+description = ""
+metadata/_custom_type_script = "uid://cb6ufp86wg3ly"

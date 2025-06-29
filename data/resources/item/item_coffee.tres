@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://ctl8hkctgvdug"]
+
+[ext_resource type="Script" uid="uid://c0l3v6x2lyis6" path="res://scripts/resources/ItemResource.gd" id="1_somc1"]
+[ext_resource type="Texture2D" uid="uid://c0mt01glb0h5l" path="res://assets/art/icons/resources/icon_item_coffee.png" id="2_q6peq"]
+
+[resource]
+script = ExtResource("1_somc1")
+effect_type = "restore_stamina"
+effect_value = 2.0
+id = "res_food_01"
+display_name = "Кофе"
+description = "Восстанавливает немного выносливости. Можно продать, если нужны деньги"
+texture = ExtResource("2_q6peq")
+metadata/_custom_type_script = "uid://c0l3v6x2lyis6"

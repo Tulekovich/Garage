@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://b6lcgggky6kww"]
+
+[ext_resource type="PackedScene" uid="uid://c2ctrmu50drod" path="res://scenes/player/player.tscn" id="1_01o1s"]
+[ext_resource type="Script" uid="uid://dsp3j8skcj85i" path="res://scripts/main_world.gd" id="1_5cb6b"]
+[ext_resource type="PackedScene" uid="uid://bt5w0d2x36w4i" path="res://scenes/world/mining_zone.tscn" id="3_01o1s"]
+[ext_resource type="PackedScene" uid="uid://cw84sncys8lpm" path="res://scenes/ui/hud.tscn" id="3_5cb6b"]
+[ext_resource type="PackedScene" uid="uid://b1jaqh1wq0dg3" path="res://scenes/world/energy_zone.tscn" id="5_5cb6b"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_5cb6b"]
+vertices = PackedVector2Array(769.781, 496.391, -55.9219, 562.742, 415.906, 267.844)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(800, 504, 416, 256, -96, 576)])
+
+[node name="MainWorld" type="Node2D"]
+script = ExtResource("1_5cb6b")
+
+[node name="Player" parent="." instance=ExtResource("1_01o1s")]
+move_speed = null
+arrival_threshold = null
+
+[node name="NavigationAgent2D2" type="NavigationAgent2D" parent="Player"]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+position = Vector2(-416, -320)
+navigation_polygon = SubResource("NavigationPolygon_5cb6b")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="HUD" parent="." instance=ExtResource("3_5cb6b")]
+
+[node name="mining_zone" parent="." instance=ExtResource("3_01o1s")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+script = null
+
+[node name="energy_zone" parent="." instance=ExtResource("5_5cb6b")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+script = null

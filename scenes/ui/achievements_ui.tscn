@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://d0mjm5tp4ta2h"]
+
+[node name="AchievementsUI" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CloseButton" type="Button" parent="."]
+process_mode = 3
+layout_mode = 2
+text = "X"
