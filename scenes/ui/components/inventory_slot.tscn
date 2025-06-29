@@ -15,3 +15,17 @@ layout_mode = 2
 [node name="InfoVBox" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="NameLabel" type="Label" parent="HBoxContainer/InfoVBox"]
+layout_mode = 2
+
+[node name="AmountLabel" type="Label" parent="HBoxContainer/InfoVBox"]
+layout_mode = 2
+
+[node name="ActionVBox" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="SellButton" type="Button" parent="HBoxContainer/ActionVBox"]
+layout_mode = 2
+text = "Продать"
