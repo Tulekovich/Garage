@@ -1,4 +1,7 @@
 @echo off
-python FIX_EVERYTHING.py
 echo.
+echo === СОЗДАНИЕ НОВОГО ПРОТОКОЛА ИНИЦИАЛИЗАЦИИ ===
+python create_bootstrap.py
+echo.
+echo === ОПЕРАЦИЯ ЗАВЕРШЕНА ===
 pause
