@@ -1,3 +1,4 @@
+# TEST: Проверка автоматической синхронизации v2.0
 # GameManager.gd (v4.4 с механикой продажи)
 extends Node
 
@@ -48,7 +49,6 @@ func spend_stamina(amount: int) -> bool:
 		return true
 	return false
 
-# [НОВОЕ] Функция для продажи всех единиц одного ресурса
 func sell_all_resources(resource_id: String):
 	var amount_to_sell = player_state.resources.get(resource_id, 0)
 	if amount_to_sell == 0:
@@ -63,13 +63,11 @@ func sell_all_resources(resource_id: String):
 	var price_per_unit = resource_data.sell_value
 	var total_earned = amount_to_sell * price_per_unit
 
-	# Обновляем состояние игрока
 	player_state.resources[resource_id] = 0
 	player_state.currency += total_earned
 
 	print("Продано %d x '%s' за %d Монет." % [amount_to_sell, resource_data.display_name, total_earned])
 
-	# Оповещаем UI
 	resource_updated.emit(resource_id, 0)
 	currency_updated.emit(player_state.currency)
 
