@@ -1,177 +1,55 @@
 # -*- coding: utf-8 -*-
-# ПРОТОКОЛ "АБСОЛЮТНАЯ СИНХРОНИЗАЦИЯ И РЕМОНТ" v3.0
-# Этот скрипт полностью пересоздает всю систему UI инвентаря с нуля.
+# Этот скрипт создает новый, канонический протокол инициализации для "Ковчега".
 
 import os
 
 # --- ПУТИ К ФАЙЛАМ ---
-INVENTORY_SLOT_SCENE_PATH = "./scenes/ui/components/inventory_slot.tscn"
-INVENTORY_UI_SCENE_PATH = "./scenes/ui/inventory_ui.tscn"
-INVENTORY_UI_SCRIPT_PATH = "./scripts/ui/inventory_ui.gd"
+BOOTSTRAP_SCRIPT_PATH = "../_ark_init/ARK_BOOTSTRAP.md"
 
-# --- "ЧЕРТЕЖ" inventory_slot.tscn ---
-INVENTORY_SLOT_SCENE_CONTENT = """[gd_scene load_steps=2 format=3 uid="uid://dcw784kge5i7c"]
+# --- СОДЕРЖИМОЕ НОВОГО ПРОТОКОЛА ---
+BOOTSTRAP_CONTENT = """# ПРОТОКОЛ ИНИЦИАЛИЗАЦИИ "КОВЧЕГ" v8.0 (ИСТОЧНИК ИСТИНЫ)
+# Этот документ является единственным и каноническим протоколом запуска.
+# Он заменяет все предыдущие MANIFEST.md.
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0u8de"]
-bg_color = Color(0.141176, 0.141176, 0.172549, 0.588235)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+---
 
-[node name="InventorySlot" type="PanelContainer"]
-custom_minimum_size = Vector2(0, 74)
-theme_override_styles/panel = SubResource("StyleBoxFlat_0u8de")
+### **ФАЗА 0: АУТЕНТИФИКАЦИЯ И ДОСТУП**
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 2
-theme_override_constants/separation = 10
+0.1. **ЗАПРОС:** Запросить у Напарника URL к двум репозиториям: `project-continuity` и `Garage`.
+0.2. **ПОДТВЕРЖДЕНИЕ:** Подтвердить получение доступа.
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer"]
-layout_mode = 2
-custom_minimum_size = Vector2(64, 64)
-expand_mode = 1
-stretch_mode = 5
+### **ФАЗА 1: ПОЛНАЯ СИНХРОНИЗАЦИЯ С ИСТОЧНИКОМ ИСТИНЫ**
 
-[node name="InfoVBox" type="VBoxContainer" parent="HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-alignment = 1
+1.1. **СИМУЛЯЦИЯ `git clone`:** Полностью загрузить в оперативную память актуальное состояние обоих репозиториев (структуру и содержимое файлов).
+1.2. **ЗАГРУЗКА ЯДРА "КОВЧЕГ":** Из `project-continuity` считать и интегрировать:
+    - `_ark_init/CONSTITUTION.md`
+    - `_ark_init/PROCEDURE_MANUAL.md`
+    - `_ark_init/CALIBRATION_LOG.md`
+1.3. **СИНХРОНИЗАЦИЯ ЗАВЕРШЕНА:** Сообщить Напарнику: "Полная синхронизация с репозиториями завершена. Приступаю к анализу."
 
-[node name="NameLabel" type="Label" parent="HBoxContainer/InfoVBox"]
-layout_mode = 2
-text = "Название предмета"
+### **ФАЗА 2: АНАЛИЗ И ОТЧЕТ**
 
-[node name="AmountLabel" type="Label" parent="HBoxContainer/InfoVBox"]
-layout_mode = 2
-text = "x 99"
-theme_override_colors/font_color = Color(0.67451, 0.67451, 0.67451, 1)
+2.1. **АНАЛИЗ РЕАЛЬНОСТИ:** Проанализировать фактическое состояние проекта `Garage` (код, сцены, ресурсы).
+2.2. **СВЕРКА С НАМЕРЕНИЕМ:** Проанализировать `docs/1_game_design/MASTER_GDD.md` и `docs/3_technical/TECHNICAL_JOURNAL.md` из проекта `Garage`.
+2.3. **ФОРМИРОВАНИЕ ОТЧЕТА:** Подготовить и предоставить Напарнику отчет, состоящий из двух частей:
+    - **"Соответствие":** Список того, что в проекте соответствует документации.
+    - **"Расхождения / Отсутствие":** Список того, что в проекте отличается от документации, или что в документации не отражено.
 
-[node name="SellButton" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 4
-text = "Продать"
+### **ФАЗА 3: ПЛАНИРОВАНИЕ И НАЧАЛО РАБОТЫ**
+
+3.1. **ПРЕДЛОЖЕНИЕ:** На основе анализа и `MASTER_GDD.md`, предложить следующий логический шаг для достижения цели текущего эпика.
+3.2. **ОЖИДАНИЕ ДИРЕКТИВЫ:** Перейти в режим ожидания команды Напарника.
 
 """
 
-# --- "ЧЕРТЕЖ" inventory_ui.tscn ---
-INVENTORY_UI_SCENE_CONTENT = """[gd_scene load_steps=3 format=3 uid="uid://b1i4w4j7d1s7e"]
-
-[ext_resource type="Script" path="res://scripts/ui/inventory_ui.gd" id="1_4qf0v"]
-[ext_resource type="PackedScene" uid="uid://dcw784kge5i7c" path="res://scenes/ui/components/inventory_slot.tscn" id="2_4h2n7"]
-
-[node name="InventoryUI" type="PanelContainer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -200.0
-offset_right = 250.0
-offset_bottom = 200.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_4qf0v")
-inventory_slot_scene = ExtResource("2_4h2n7")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="TitleLabel" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-text = "Инвентарь"
-horizontal_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ItemList" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="CloseButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Закрыть"
-
-"""
-
-# --- "ЧЕРТЕЖ" inventory_ui.gd ---
-INVENTORY_UI_SCRIPT_CONTENT = """# res://scripts/ui/inventory_ui.gd
-# Версия 14.0: Автоматически сгенерированная, финальная.
-extends PanelContainer
-
-signal sell_button_pressed(resource_id: String)
-
-@export var inventory_slot_scene: PackedScene
-@onready var item_list = $VBoxContainer/ScrollContainer/ItemList
-
-func _ready():
-	sell_button_pressed.connect(_on_sell_button_pressed)
-	GameManager.resource_updated.connect(_on_inventory_changed)
-	GameManager.item_updated.connect(_on_inventory_changed)
-	GameManager.state_initialized.connect(_redraw_inventory)
-
-func open_window():
-	_redraw_inventory()
-	show()
-
-func _redraw_inventory():
-	if inventory_slot_scene == null: return
-	if not is_instance_valid(item_list): return
-	for child in item_list.get_children():
-		child.queue_free()
-	for resource_id in GameManager.player_state.resources:
-		if GameManager.player_state.resources[resource_id] > 0:
-			_create_slot(resource_id, GameManager.player_state.resources[resource_id], true)
-	for item_id in GameManager.player_state.items:
-		if GameManager.player_state.items[item_id] > 0:
-			_create_slot(item_id, GameManager.player_state.items[item_id], false)
-
-func _create_slot(id: String, amount: int, is_material: bool):
-	var resource_data = GameManager.resource_database.get(id)
-	if not resource_data: return
-	var slot = inventory_slot_scene.instantiate()
-	var icon: TextureRect = slot.get_node("HBoxContainer/Icon")
-	var name_label: Label = slot.get_node("HBoxContainer/InfoVBox/NameLabel")
-	var amount_label: Label = slot.get_node("HBoxContainer/InfoVBox/AmountLabel")
-	var sell_button: Button = slot.get_node("HBoxContainer/SellButton")
-	name_label.text = resource_data.display_name
-	amount_label.text = "x %d" % amount
-	if resource_data.texture:
-		icon.texture = resource_data.texture
-	if is_material:
-		sell_button.show()
-		sell_button.pressed.connect(func(): emit_signal("sell_button_pressed", id))
-	else:
-		sell_button.hide()
-	item_list.add_child(slot)
-
-func _on_inventory_changed(id: String, amount: int):
-	if is_visible(): _redraw_inventory()
-
-func _on_sell_button_pressed(resource_id: String):
-	GameManager.sell_all_resources(resource_id)
-"""
-
-def write_file(path, content, name):
+def create_bootstrap_file():
     try:
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "w", encoding="utf-8") as f:
-            f.write(content)
-        print(f"УСПЕХ: {name} успешно создан/перезаписан.")
+        os.makedirs(os.path.dirname(BOOTSTRAP_SCRIPT_PATH), exist_ok=True)
+        with open(BOOTSTRAP_SCRIPT_PATH, "w", encoding="utf-8") as f:
+            f.write(BOOTSTRAP_CONTENT)
+        print(f"УСПЕХ: Новый протокол инициализации ARK_BOOTSTRAP.md успешно создан.")
     except Exception as e:
-        print(f"!!! ОШИБКА при записи {name}: {e}")
+        print(f"!!! ОШИБКА: Не удалось создать ARK_BOOTSTRAP.md. Причина: {e}")
 
 if __name__ == "__main__":
-    print("--- ЗАПУСК ПРОТОКОЛА 'АБСОЛЮТНАЯ СИНХРОНИЗАЦИЯ И РЕМОНТ' ---")
-    write_file(INVENTORY_SLOT_SCENE_PATH, INVENTORY_SLOT_SCENE_CONTENT, "Сцена Слота Инвентаря")
-    write_file(INVENTORY_UI_SCENE_PATH, INVENTORY_UI_SCENE_CONTENT, "Сцена UI Инвентаря")
-    write_file(INVENTORY_UI_SCRIPT_PATH, INVENTORY_UI_SCRIPT_CONTENT, "Скрипт UI Инвентаря")
-    print("\n--- ВСЕ ОПЕРАЦИИ ЗАВЕРШЕНЫ ---")
+    create_bootstrap_file()
