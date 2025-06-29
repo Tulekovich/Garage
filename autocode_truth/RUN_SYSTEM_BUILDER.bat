@@ -1,7 +1,7 @@
 @echo off
 echo.
-echo === СОЗДАНИЕ НОВОГО ПРОТОКОЛА ИНИЦИАЛИЗАЦИИ ===
-python create_bootstrap.py
+echo === ЗАПУСК СИСТЕМНОГО СТРОИТЕЛЯ ===
+python system_builder.py
 echo.
 echo === ОПЕРАЦИЯ ЗАВЕРШЕНА ===
 pause
