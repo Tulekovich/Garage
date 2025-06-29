@@ -27,11 +27,7 @@ layout_mode = 2
 text = "Инвентарь"
 horizontal_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ItemList" type="GridContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="ItemList" type="GridContainer" parent="VBoxContainer"]
 layout_mode = 2
 columns = 8
 
