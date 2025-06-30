@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Lighthouse_Keeper"
+config/name="Garage"
 run/main_scene="uid://b4ntg3vspm2yo"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
